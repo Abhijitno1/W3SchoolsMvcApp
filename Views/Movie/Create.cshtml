@@ -1,0 +1,27 @@
+﻿@model W3SchoolsMvcApp.Models.Movie
+<fieldset>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Title)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Title)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Director)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Director)
+    </div>
+    <div class="editor-label">
+        @Html.Label("ReleaseDate", "Release Date")
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ReleaseDate)
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ReleaseDate').datepicker();
+    });
+</script>
