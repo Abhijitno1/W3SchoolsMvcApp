@@ -1,36 +1,25 @@
 ﻿@model IEnumerable<W3SchoolsMvcApp.Models.Movie>
-           
-<table>
-    <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Director
-        </th>
-        <th>
-            ReleaseDate
-        </th>
-        <th></th>
-    </tr>
+@using GridMvc.Html
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Director)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReleaseDate)
-        </td>
-        <td>
-            <a href="Javascript:ShowEditMovieWindow(@item.ID);">Edit</a> |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |            
-            <a href="Javascript:ConfirmMovieDelete(@item.ID);">Delete</a>
-        </td>
-    </tr>
+@helper ActionColumn(int itemId) {
+    <span>
+        <a href='Javascript:ShowEditMovieWindow(@itemId);'>Edit</a> |
+        @Html.ActionLink("Details", "Details", new { id = itemId }) |          
+        <a href='Javascript:ConfirmMovieDelete(@itemId);'>Delete</a>
+    </span>
 }
-</table>
+
+@Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(item => item.ID, true);
+        columns.Add(item => item.Title);
+        columns.Add(item => item.Director);
+        columns.Add(item => item.ReleaseDate)
+            .Titled("Release Date")
+            .RenderValueAs(item => item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("MM/dd/yyyy") : string.Empty
+        );
+        columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => 
+            ActionColumn(@item.ID).ToHtmlString()
+        );
+    }).WithPaging(10).Sortable(true).EmptyText("There is no data to display")
 
