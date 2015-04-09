@@ -14,7 +14,7 @@ function defineMovieEditorPopup(windowMode, updateFunction) {
         autoOpen: false,
         closeOnEscape: false,
         resizable: true,
-        width: 500,
+        width: 400,
         show: "puff",
         hide: "explode",
         buttons: {
