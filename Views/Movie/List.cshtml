@@ -21,5 +21,5 @@
         columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => 
             ActionColumn(@item.ID).ToHtmlString()
         );
-    }).WithPaging(10).Sortable(true).EmptyText("There is no data to display")
+    }).WithPaging(10).Sortable(true).EmptyText("There is no data to display").Filterable(true)
 
