@@ -68,7 +68,7 @@ namespace W3SchoolsMvcApp.Controllers
         //
         // GET: /Movie/Edit/5
  
-        public ActionResult Edit(int id)
+        public PartialViewResult Edit(int id)
         {
             Movie movie = db.Movies.Single(m => m.ID == id);
             return PartialView(movie);

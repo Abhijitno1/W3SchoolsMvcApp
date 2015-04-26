@@ -16,10 +16,10 @@
         columns.Add(item => item.Director);
         columns.Add(item => item.ReleaseDate)
             .Titled("Release Date")
-            .RenderValueAs(item => item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("MM/dd/yyyy") : string.Empty
-        );
+            .RenderValueAs(item => item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("MM/dd/yyyy") : string.Empty)
+            .SetFilterWidgetType("customReleaseDateRangeFilter");
         columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => 
             ActionColumn(@item.ID).ToHtmlString()
         );
-    }).WithPaging(10).Sortable(true).EmptyText("There is no data to display").Filterable(true)
+    }).Named("moviesGrid").WithPaging(10).Sortable(true).EmptyText("There is no data to display").Filterable(true)
 
