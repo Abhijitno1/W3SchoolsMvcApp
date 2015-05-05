@@ -61,6 +61,10 @@ input[type="submit"]
 {
     padding: 4px;
 }
+display-label
+{
+    font-weight:bold;
+}
 /* Data Styles ------------------------------*/
 table.data
 {

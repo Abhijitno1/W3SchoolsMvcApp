@@ -1,15 +1,16 @@
-﻿var createMovieWindow, updateMovieWindow;
+﻿var createMovieWindow, updateMovieWindow, displayMovieWindow;
 
 $(document).ready(function () {
     $.ajaxSetup({ cache: false });
-    $("#createMovieWindow, #updateMovieWindow").hide();
+    $("#createMovieWindow, #updateMovieWindow", "#displayMovieWindow").hide();
     createMovieWindow = defineMovieEditorPopup("Create", OnSaveofCreateWindow);
     updateMovieWindow = defineMovieEditorPopup("Update", OnSaveofUpdateWindow);
-    //GridMvc.addFilterWidget(new ReleaseDateGridFilter());
+    displayMovieWindow = defineMovieEditorPopup("Display", function () { });
+    pageGrids.moviesGrid.addFilterWidget(new ReleaseDateGridFilter());
 });
 
 function defineMovieEditorPopup(windowMode, updateFunction) {
-    var domElm = windowMode == "Create" ? "#createMovieWindow" : "#updateMovieWindow";
+    var domElm = windowMode == "Create" ? "#createMovieWindow" : (windowMode == "Update" ? "#updateMovieWindow" : "#displayMovieWindow");
     return $(domElm).dialog({
         title: windowMode + " Movie",
         autoOpen: false,
@@ -22,6 +23,13 @@ function defineMovieEditorPopup(windowMode, updateFunction) {
             update: updateFunction,
             cancel: function () {
                 $(domElm).dialog("close");
+            }
+        },
+        open: function () {
+            if (windowMode == "Display") {
+                //Hide the update button if the popup is shown in display mode
+                $(this).dialog().next().find(".ui-dialog-buttonset").children("button:first-child").hide();
+                //$(this).dialog().prev().find(".ui-dialog-titlebar-close").hide();
             }
         }
     });
@@ -122,6 +130,21 @@ function ShowEditMovieWindow(movieID) {
     });
 }
 
+function ShowDisplayMovieWindow(movieID) {
+    $.ajax({
+        url: "/Movie/Details/" + movieID,
+        type: "GET",
+        success: function (response) {
+            $("#displayMovieWindow").html(response);
+            displayMovieWindow.dialog("open");
+        },
+        error: function (response) {
+            $("#displayMovieWindow").html(response.responseText);
+            displayMovieWindow.dialog("open");
+        }
+    });
+}
+
 function ConfirmMovieDelete(movieID) {
     if (confirm("Are you sure you want to delete this movie?")) {
         $.ajax({
@@ -146,7 +169,7 @@ function ConfirmMovieDelete(movieID) {
 }
 
 function ReleaseDateGridFilter() {
-    this.getAssociatedFilterTypes = function () {
+    this.getAssociatedTypes = function () {
         return ["customReleaseDateRangeFilter"];
     }
 
@@ -162,30 +185,39 @@ function ReleaseDateGridFilter() {
         this.cb = cb;
         this.container = container;
         this.lang = lang;
-        this.fromValue = values[0], this.toValue = value[1];
+        this.fromValue = new Date(), this.toValue = new Date();
+        if (values.length > 0) {
+            this.fromValue = values[0].filterValue;
+            this.toValue = values[1].filterValue;
+        }
         this.renderWidget();
         this.registerEvents();
     }
 
     this.renderWidget = function () {
-        var html = '<h3>Filter Date Range<h3> \
-            <fieldset> \
-            <div class="editor-label">From Date<div> \
-            <div class="editor-field"><input type="text" id="dtFromDate" name="dtFromDate"></input></div> \
-            <div class="editor-label">To Date<div> \
-            <div class="editor-field"><input type="text" id="dtToDate" name="dtToDate"></input></div> \
-            </fieldset> \
-            <p><button class="btn btnPrimary customFilter">Apply Filter</button></p>';
+        var html = '<legend>Filter Date Range</legend> \
+            <div class="form-group"> \
+            <label>From Date</label> \
+            <input type="text" id="dtFromDate" name="dtFromDate" class="grid-filter-input-form-control"></input> \
+            </div> \
+            <div class="form-group"><label>To Date</label> \
+            <input type="text" id="dtToDate" name="dtToDate" class="grid-filter-input-form-control"></input></div> \
+            <div class="grid-filter-buttons"> \
+            <button id="btnDateRangeFilter" class="btn btn-primary grid-apply">Apply Filter</button></div>';
         this.container.append(html);
     }
 
     this.registerEvents = function () {
-        var filterBtn = this.container.find(".customfilter");
-        filterBtn.live('click', function () {
-            var values = new Array(2);
-            values[0] = this.container.find("#dtFromDate").val();
-            values[1] = this.container.find("#dtToDate").val();
-            cb(values);
+        var context = this;
+        var filterBtn = this.container.find("#btnDateRangeFilter");
+        filterBtn.click(function () {
+            this.fromValue = context.container.find("#dtFromDate").val();
+            this.toValue = context.container.find("#dtToDate").val();
+            var values = [
+                { filterType: 7, filterValue: this.fromValue }, //GreaterThanOrEqualTo filter
+                { filterType: 8, filterValue: this.toValue }    //LessThanOrEqualTo filter
+            ];
+            context.cb(values);
         });
     }
 }

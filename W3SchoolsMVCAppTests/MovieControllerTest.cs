@@ -145,7 +145,7 @@ namespace W3SchoolsMVCAppTests
         {
             MovieController target = new MovieController();
             int id = 10;
-            ViewResult actual = target.Details(id);
+            PartialViewResult actual = target.Details(id);
             object data = actual.Model;
             Assert.IsInstanceOfType(data, typeof(Movie));
         }

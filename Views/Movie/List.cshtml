@@ -4,7 +4,7 @@
 @helper ActionColumn(int itemId) {
     <span>
         <a href='Javascript:ShowEditMovieWindow(@itemId);'>Edit</a> |
-        @Html.ActionLink("Details", "Details", new { id = itemId }) |          
+        <a href='Javascript:ShowDisplayMovieWindow(@itemId)'>Details</a> |          
         <a href='Javascript:ConfirmMovieDelete(@itemId);'>Delete</a>
     </span>
 }
@@ -16,10 +16,10 @@
         columns.Add(item => item.Director);
         columns.Add(item => item.ReleaseDate)
             .Titled("Release Date")
-            .RenderValueAs(item => item.ReleaseDate.HasValue ? item.ReleaseDate.Value.ToString("MM/dd/yyyy") : string.Empty)
+            .Format("{0:MM/dd/yyyy}")
             .SetFilterWidgetType("customReleaseDateRangeFilter");
         columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => 
             ActionColumn(@item.ID).ToHtmlString()
         );
-    }).Named("moviesGrid").WithPaging(10).Sortable(true).EmptyText("There is no data to display").Filterable(true)
+    }).Named("moviesGrid").WithPaging(10).Sortable(true).EmptyText("There is no data to display").Filterable(true).WithMultipleFilters()
 

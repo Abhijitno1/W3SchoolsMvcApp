@@ -28,10 +28,10 @@ namespace W3SchoolsMvcApp.Controllers
         //
         // GET: /Movie/Details/5
 
-        public ViewResult Details(int id)
+        public PartialViewResult Details(int id)
         {
             Movie movie = db.Movies.Single(m => m.ID == id);
-            return View(movie);
+            return PartialView(movie);
         }
 
         //
