@@ -11,7 +11,7 @@ namespace W3SchoolsMvcApp.Controllers
 { 
     public class MovieController : Controller
     {
-        private MovieDBEntities db = new MovieDBEntities();
+        private MoviesDbEntities db = new MoviesDbEntities();
 
         //
         // GET: /Movie/
@@ -52,7 +52,7 @@ namespace W3SchoolsMvcApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Movies.AddObject(movie);
+                    db.Movies.Add(movie);
                     db.SaveChanges();
                 }
                 var response = new { Success = true, Message = "Movie created successfully" };
@@ -84,8 +84,9 @@ namespace W3SchoolsMvcApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Movies.Attach(movie);
-                    db.ObjectStateManager.ChangeObjectState(movie, EntityState.Modified);
+                    //db.Movies.Attach(movie);
+                    db.Entry<Movie>(movie).State = EntityState.Modified;                  
+                    //db.ObjectStateManager.ChangeObjectState(movie, EntityState.Modified);
                     db.SaveChanges();
                 }
                 var response = new { Success = true, Message = "Movie updated successfully" };
@@ -105,7 +106,7 @@ namespace W3SchoolsMvcApp.Controllers
             try
             {
                 Movie movie = db.Movies.Single(m => m.ID == id);
-                db.Movies.DeleteObject(movie);
+                db.Movies.Remove(movie);
                 db.SaveChanges();
                 return Json(new { Success = true, Message = "Movie deleted successfully" }, JsonRequestBehavior.AllowGet);
             }

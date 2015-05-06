@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Reflection;
+using Autofac;
+using Autofac.Integration.Mvc;
+using W3SchoolsMvcApp.Models;
 
 namespace W3SchoolsMvcApp
 {
@@ -29,8 +33,19 @@ namespace W3SchoolsMvcApp
 
         }
 
+        public static void RegisterDependancies()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterType<MoviesDbEntities>().AsSelf();
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
         protected void Application_Start()
         {
+            System.Data.Entity.Database.SetInitializer(new W3SchoolsMvcApp.Models.SampleData());
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
