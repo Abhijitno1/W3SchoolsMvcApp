@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMvcApp", "W3SchoolsMvcApp.csproj", "{7F67EAA1-946F-47D3-953F-EA358264EFCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMVCAppTests", "W3SchoolsMVCAppTests\W3SchoolsMVCAppTests.csproj", "{88A7DD8F-D3ED-47AD-9501-F2A37C742C45}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BBE4CB8-F431-49C4-B1AB-3ECF8CEF2AD5}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		W3SchoolsMvcApp.vsmdi = W3SchoolsMvcApp.vsmdi
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMVCAppTests", "W3SchoolsMVCAppTests\W3SchoolsMVCAppTests.csproj", "{88A7DD8F-D3ED-47AD-9501-F2A37C742C45}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

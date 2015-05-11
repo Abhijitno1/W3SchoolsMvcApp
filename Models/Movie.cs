@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace W3SchoolsMvcApp.Models
 {
-    [Bind(Exclude = "ID")]
+    //[Bind(Exclude = "ID")]
     public class Movie
     {
         public int ID { get; set; }

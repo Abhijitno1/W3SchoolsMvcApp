@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using W3SchoolsMvcApp.Models;
+using Moq;
+using W3SchoolsMVCAppTests.DatabaseHelpers;
 
 namespace W3SchoolsMVCAppTests
 {
-    
     
     /// <summary>
     ///This is a test class for MovieController and is intended
@@ -18,7 +20,16 @@ namespace W3SchoolsMVCAppTests
     public class MovieControllerTest
     {
 
+        //Sample data used for mocking repository
+        private readonly Movie testMovie = new Movie
+        {
+            ID = 10,
+            Title = "Mahamovie",
+            Director = "Shubbu",
+            ReleaseDate = new DateTime(2020, 02, 20)
+        };
 
+        private Mock<MoviesDbEntities> mockDB;
         private TestContext testContextInstance;
 
         /// <summary>
@@ -52,19 +63,23 @@ namespace W3SchoolsMVCAppTests
         //public static void MyClassCleanup()
         //{
         //}
-        //
+
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            //Setup the mock DBContext
+            mockDB = new Mock<MoviesDbEntities>();
+            mockDB.Object.Movies = new FakeDbSet<Movie>() { testMovie };
+        }
+        
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            mockDB = null;
+        }
+        
         #endregion
 
 
@@ -93,7 +108,11 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void IndexTest()
         {
-            MovieController target = new MovieController();
+            IDbSet<Movie> expectedMovies = new FakeDbSet<Movie> { testMovie };
+            Mock<MoviesDbEntities> mockDB = new Mock<MoviesDbEntities>();
+            mockDB.Object.Movies = expectedMovies;
+            //mockDB.SetupGet(db => db.Movies).Returns(expectedMovies);
+            MovieController target = new MovieController(mockDB.Object);
             ViewResult actual;
             actual = target.Index();
             Assert.IsNotNull(actual);
@@ -105,7 +124,7 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void CreateTest()
         {
-            MovieController target = new MovieController();
+            MovieController target = new MovieController(null);
             ActionResult actual;
             actual = target.Create();
             Assert.IsInstanceOfType(actual, typeof(PartialViewResult));
@@ -117,9 +136,10 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void CreateTest1()
         {
-            MovieController target = new MovieController();
-            Movie movie = new Movie { Title = "dilitthree" }; 
-            ActionResult actual = target.Create(movie);
+            Mock<MoviesDbEntities> mockDB = new Mock<MoviesDbEntities>();
+            mockDB.Object.Movies = new FakeDbSet<Movie>();
+            MovieController target = new MovieController(mockDB.Object);
+            ActionResult actual = target.Create(testMovie);
             dynamic data = (actual as JsonResult).Data;
             Assert.IsTrue(data.Success);
         }
@@ -130,8 +150,10 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void DeleteTest()
         {
-            MovieController target = new MovieController();
-            int id = 21;
+            Mock<MoviesDbEntities> mockDB = new Mock<MoviesDbEntities>();
+            mockDB.Object.Movies = new FakeDbSet<Movie>() { testMovie };            
+            MovieController target = new MovieController(mockDB.Object);
+            int id = 10;
             ActionResult actual = target.Delete(id);
             dynamic data = ((JsonResult)actual).Data;
             Assert.IsTrue(data.Success);
@@ -143,7 +165,9 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void DetailsTest()
         {
-            MovieController target = new MovieController();
+            var mockDB = Mock.Of<MoviesDbEntities>();
+            mockDB.Movies = new FakeDbSet<Movie>() { testMovie };
+            MovieController target = new MovieController(mockDB);
             int id = 10;
             PartialViewResult actual = target.Details(id);
             object data = actual.Model;
@@ -156,7 +180,9 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void EditTest()
         {
-            MovieController target = new MovieController();
+            var mockDB = Mock.Of<MoviesDbEntities>();
+            mockDB.Movies = new FakeDbSet<Movie>() { testMovie };
+            MovieController target = new MovieController(mockDB);
             int id = 10;
             PartialViewResult actual = target.Edit(id);
             Movie alibaba = (Movie)actual.Model;
@@ -167,10 +193,26 @@ namespace W3SchoolsMVCAppTests
         ///A test for Edit
         ///</summary>
         [TestMethod()]
+        [Ignore]
         public void EditTest1()
         {
-            MovieController target = new MovieController();
-            Movie movie = new Movie { ID=10, Director="R Mehra", ReleaseDate= new DateTime(1985, 01, 01), Title="KhatmalLaal" };
+            MovieController target = new MovieController(new MoviesDbEntities());
+            Movie movie = new Movie { ID = 15, Director = "Bhajesh Roshan", ReleaseDate = new DateTime(1985, 01, 01), Title = "Koi Bhag Gaya" };
+            ActionResult actual = target.Edit(movie);
+            dynamic data = ((JsonResult)actual).Data;
+            Assert.IsTrue(data.Success);
+        }
+
+        [TestMethod()]
+        [Ignore]
+        public void EditTest2()
+        {
+            Movie movie = new Movie { ID = 15, Director = "Bhajesh Roshan", ReleaseDate = new DateTime(1985, 01, 01), Title = "Koi Bhag Gaya" };
+            Mock<MoviesDbEntities> mockDB = new Mock<MoviesDbEntities>();
+            mockDB.Object.Movies = new FakeDbSet<Movie>();
+            mockDB.SetupSet(db => db.Entry<Movie>(movie).State = System.Data.EntityState.Modified);
+            mockDB.Setup(db => db.SaveChanges()).Returns(1);
+            MovieController target = new MovieController(mockDB.Object);
             ActionResult actual = target.Edit(movie);
             dynamic data = ((JsonResult)actual).Data;
             Assert.IsTrue(data.Success);
@@ -182,7 +224,9 @@ namespace W3SchoolsMVCAppTests
         [TestMethod()]
         public void ListTest()
         {
-            MovieController target = new MovieController();             
+            var mockDB = Mock.Of<MoviesDbEntities>();
+            mockDB.Movies = new FakeDbSet<Movie>() { testMovie };
+            MovieController target = new MovieController(mockDB);             
             PartialViewResult actual = target.List();
             var movies = actual.ViewData.Model;
             Assert.IsInstanceOfType(movies, typeof(List<Movie>));

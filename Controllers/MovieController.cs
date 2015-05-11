@@ -11,8 +11,13 @@ namespace W3SchoolsMvcApp.Controllers
 { 
     public class MovieController : Controller
     {
-        private MoviesDbEntities db = new MoviesDbEntities();
+        private MoviesDbEntities db;
 
+        //Ctor
+        public MovieController(MoviesDbEntities dbNtts)
+        {
+            db = dbNtts;
+        }
         //
         // GET: /Movie/
         public ViewResult Index()

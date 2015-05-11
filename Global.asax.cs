@@ -50,6 +50,7 @@ namespace W3SchoolsMvcApp
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            RegisterDependancies();
         }
     }
 }

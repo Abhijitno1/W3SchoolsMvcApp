@@ -9,14 +9,15 @@ namespace W3SchoolsMvcApp.Models
 {
     public class MoviesDbEntities: DbContext
     {
-        public DbSet<Movie> Movies { get; set; }
+        public IDbSet<Movie> Movies { get; set; }
 
         /*
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {            
+        {   
+            //throw new UnintentionalCodeFirstException();
             modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
             base.OnModelCreating(modelBuilder);
         }
-        */ 
+        */
     }
 }
