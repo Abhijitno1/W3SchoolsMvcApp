@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using W3SchoolsMvcApp.Infrastructure;
 
 namespace W3SchoolsMvcApp.Models
 {
@@ -15,7 +16,9 @@ namespace W3SchoolsMvcApp.Models
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
         public string Director { get; set; }
-        [DisplayName("Release Date")]        
+        [DataType(DataType.Date)]
+        [DisplayName("Release Date")]  
+        [DateRange("1960/01/01", "2020/12/12")]
         public DateTime? ReleaseDate { get; set; }
     }
 }

@@ -16,6 +16,11 @@ h1
     background-color: #ffffff;
     border-radius: 0 4px 4px4px;
 }
+footer
+{
+    position: fixed;
+    margin-bottom:0;    
+}
 a
 {
     color: #034af3;
@@ -42,6 +47,11 @@ ul#menu li a
 ul#menu li a:hover
 {
     background-color: #ffffff;
+}
+.actionLink
+{
+    display: inline-block;
+    padding: 0 20px;
 }
 /* Forms Styles ------------------------------*/
 fieldset

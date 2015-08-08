@@ -1,0 +1,15 @@
+﻿@model DateTime?
+           
+@helper FormatDate(DateTime? input)
+{
+    if (input.HasValue)
+    {
+        @input.Value.ToString("MM/dd/yyyy");
+    }
+    else
+    {
+        @string.Empty;
+    }
+}
+
+@Html.TextBox(string.Empty, FormatDate(Model), new { @class = "date" })

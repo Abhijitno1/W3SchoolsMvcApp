@@ -1,0 +1,3 @@
+﻿function BindDatePicker() {
+    $('.date').datepicker();
+}

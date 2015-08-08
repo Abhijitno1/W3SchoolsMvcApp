@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using W3SchoolsMvcApp.Models;
+using W3SchoolsMvcApp.Services;
 
 namespace W3SchoolsMvcApp.Controllers
 { 
@@ -90,12 +91,16 @@ namespace W3SchoolsMvcApp.Controllers
                 if (ModelState.IsValid)
                 {
                     //db.Movies.Attach(movie);
-                    db.Entry<Movie>(movie).State = EntityState.Modified;                  
+                    db.Entry<Movie>(movie).State = EntityState.Modified;
                     //db.ObjectStateManager.ChangeObjectState(movie, EntityState.Modified);
                     db.SaveChanges();
+                    var response = new { Success = true, Message = "Movie updated successfully" };
+                    return Json(response);
                 }
-                var response = new { Success = true, Message = "Movie updated successfully" };
-                return Json(response);
+                else
+                {
+                    return PartialView(movie);
+                }
             }
             catch (Exception ex)
             {
@@ -114,6 +119,20 @@ namespace W3SchoolsMvcApp.Controllers
                 db.Movies.Remove(movie);
                 db.SaveChanges();
                 return Json(new { Success = true, Message = "Movie deleted successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Export2XL()
+        {
+            try
+            {
+                ExcelExporter xlXporter = new ExcelExporter();
+                var outputStream = xlXporter.ExportMoviesList(null);
+                return File(outputStream, "application/vnd.ms-excel", "MovieList.xls");
             }
             catch (Exception ex)
             {
