@@ -1,4 +1,5 @@
 ﻿@model W3SchoolsMvcApp.Models.Movie
+<form id="frmCreateMovie" action="Movie/Create" method="post">
 <fieldset>
     <div class="editor-label">
         @Html.LabelFor(model => model.Title)
@@ -13,12 +14,13 @@
         @Html.EditorFor(model => model.Director)
     </div>
     <div class="editor-label">
-        @Html.Label("ReleaseDate", "Release Date")
+        @Html.LabelFor(model => model.ReleaseDate)
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.ReleaseDate)
     </div>
 </fieldset>
+</form>
 <script type="text/javascript">
     BindDatePicker();
 </script>

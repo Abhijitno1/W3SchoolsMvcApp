@@ -7,6 +7,13 @@ $(document).ready(function () {
     updateMovieWindow = defineMovieEditorPopup("Update", OnSaveofUpdateWindow);
     displayMovieWindow = defineMovieEditorPopup("Display", function () { });
     pageGrids.moviesGrid.addFilterWidget(new ReleaseDateGridFilter());
+
+    $("frmCreateMovie").validate({
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
 });
 
 function defineMovieEditorPopup(windowMode, updateFunction) {
@@ -35,7 +42,7 @@ function defineMovieEditorPopup(windowMode, updateFunction) {
     });
 }
 
-function OnSaveofCreateWindow() {
+function OnSaveofCreateWindowOld() {
     var newMovie = {
         Title: $("#Title").val(),
         Director: $("#Director").val(),
@@ -66,6 +73,11 @@ function OnSaveofCreateWindow() {
             alert("Unhandled error occurred at Serverside");
         }
     });
+}
+
+function OnSaveofCreateWindow() {
+    $("frmCreateMovie").submit();
+    return;
 }
 
 function OnSaveofUpdateWindow() {
