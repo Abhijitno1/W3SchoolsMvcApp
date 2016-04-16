@@ -12,6 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMVCAppTests", "W3SchoolsMVCAppTests\W3SchoolsMVCAppTests.csproj", "{88A7DD8F-D3ED-47AD-9501-F2A37C742C45}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8AEEACB1-409F-4654-A2AF-6611AA88D3EB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = W3SchoolsMvcApp.vsmdi

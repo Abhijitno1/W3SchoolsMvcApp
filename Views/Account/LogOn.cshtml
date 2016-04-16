@@ -46,3 +46,33 @@
         </fieldset>
     </div>
 }
+
+<script>
+    $(function () {    
+        $('form').validate({
+            rules: {
+                UserName: {
+                    required: true
+                },
+                Password: {
+                    required: true
+                }
+            },
+            messages: {
+                UserName: {
+                    required: "User Name is required"
+                },
+                Password: {
+                    required: "Password is required"
+                }
+            }
+        });
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            alert("I am getting submitted");
+            if (!$(this).valid())
+                alert("form is invalid");
+        });
+    });
+</script>

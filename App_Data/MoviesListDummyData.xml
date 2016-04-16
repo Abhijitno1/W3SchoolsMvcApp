@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="MoviesList2HTML.xsl"?>
+<moviesList>
+  <movie>
+	<id>1</id>	
+    <title>Rambhau</title>
+    <director>Shy Stallone</director>
+    <releaseDate>3/31/1992</releaseDate>
+  </movie>
+  <movie>
+	<id>2</id>	
+    <title>Exit the Dragon</title>
+    <director>Choos Lee</director>
+    <releaseDate>3/31/1980</releaseDate>
+  </movie>
+  <movie>
+	<id>3</id>	
+    <title>Ammo of Devils</title>
+    <director>Micky Chain</director>
+    <releaseDate>3/10/1990</releaseDate>
+  </movie>
+</moviesList>

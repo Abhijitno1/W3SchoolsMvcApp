@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using W3SchoolsMvcApp.Models;
 using W3SchoolsMvcApp.Services;
+using W3SchoolsMvcApp.Infrastructure;
 
 namespace W3SchoolsMvcApp.Controllers
 { 
@@ -139,7 +140,22 @@ namespace W3SchoolsMvcApp.Controllers
                 return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
- 
+
+        public ActionResult Export2Pdf()
+        {
+            try
+            {
+                PdfExporter xlXporter = new PdfExporter();
+                string outputString = this.RenderViewToString("List", db.Movies.ToList());
+                var outputStream = xlXporter.ExportMoviesList(outputString);
+                return File(outputStream, "application/pdf", "MovieList.pdf");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

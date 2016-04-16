@@ -10,11 +10,17 @@
     <script src="@Url.Content("~/Scripts/JQueryValidators.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/EditorHookup.js")" type="text/javascript"></script>
 }
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();   
+}
 <h2 style="float: left; width: 50%">
     Movies List</h2>
 <div style="height: 55px; margin-top: 25px">
     <span class="actionLink"><a href="javascript:ShowAddMovieWindow();">Create New</a></span>
     <span class="actionLink">@Html.ActionLink("Export to Excel", "Export2XL")</span>
+    <span class="actionLink">@Html.ActionLink("Export to Pdf", "Export2Pdf")</span>
 </div>
 <div id="createMovieWindow">
 </div>

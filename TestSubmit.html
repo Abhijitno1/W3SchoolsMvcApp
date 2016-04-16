@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="/Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <!--    <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>-->
+</head>
+<body>
+    <form name="myForm" id="myForm" method="post" action="/Account/Logon">
+    <div>
+        <input name="UserName" /></div>
+    <div>
+        <input name="Password" /></div>
+    <div>
+        <input type="submit" value="Save" style="padding: 0 15px;" />
+        <input type="reset" value="Reset" style="padding: 0 15px;" /></div>
+    </form>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var validator = $("#myForm").validate({
+            rules: {
+                UserName: "required",
+                Password: {
+                    required: true,
+                    minLength: 8
+                }
+            },
+            messages: {
+                UserName: {
+                    required: "User Name is required"
+                },
+                Password: {
+                    required: "Password is required",
+                    minLength: "Password must be minimum 8 chars long"
+                }
+            }
+        });
+
+        $("#myForm").submit(function (e) {
+            var result = validator.valid();
+            if (!result) {
+                alert('I am not getting submitted due to validation failure');
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</html>

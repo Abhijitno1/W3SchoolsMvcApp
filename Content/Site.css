@@ -26,17 +26,21 @@ a
     color: #034af3;
 }
 /* Menu Styles ------------------------------*/
-ul#menu
+.h-menu 
+{
+    position: relative;
+}
+.h-menu ul
 {
     padding: 0px;
-    position: relative;
     margin: 0;
+    display: inline-block;
 }
-ul#menu li
+.h-menu li
 {
     display: inline;
 }
-ul#menu li a
+.h-menu li a
 {
     background-color: #e8eef4;
     padding: 10px 20px;
@@ -44,7 +48,7 @@ ul#menu li a
     line-height: 2.8em; /*CSS3 properties*/
     border-radius: 4px 4px 0 0;
 }
-ul#menu li a:hover
+.h-menu li a:hover
 {
     background-color: #ffffff;
 }

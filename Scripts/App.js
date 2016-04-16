@@ -8,9 +8,23 @@ $(document).ready(function () {
     displayMovieWindow = defineMovieEditorPopup("Display", function () { });
     pageGrids.moviesGrid.addFilterWidget(new ReleaseDateGridFilter());
 
-    $("frmCreateMovie").validate({
-        submitHandler: function (form) {
-            form.submit();
+    $("#frmCreateMovie").validate({
+        //showErrors: function (errorMap, errorList) {
+        //},
+        rules: {
+            Title: {
+                required: true
+                ,maxLength: 5
+            }
+        },
+        messages: {
+            Title: {
+                required: "Title is required"
+                ,range: "Title must be less than or equal to 5 chars"
+            }
+        }
+        ,submitHandler: function (form) {
+            $(form).dialog("close");
         }
     });
 
@@ -42,7 +56,7 @@ function defineMovieEditorPopup(windowMode, updateFunction) {
     });
 }
 
-function OnSaveofCreateWindowOld() {
+function OnSaveofCreateWindow() {
     var newMovie = {
         Title: $("#Title").val(),
         Director: $("#Director").val(),
@@ -75,9 +89,12 @@ function OnSaveofCreateWindowOld() {
     });
 }
 
-function OnSaveofCreateWindow() {
-    $("frmCreateMovie").submit();
-    return;
+function OnSaveofCreateWindowTest() {
+    var formObject = $("#frmCreateMovie");
+    alert(formObject.valid());
+    formObject[0].action = "/Movie/Create";
+    formObject[0].method = "POST";
+    formObject.submit();
 }
 
 function OnSaveofUpdateWindow() {
@@ -97,7 +114,7 @@ function OnSaveofUpdateWindow() {
         data: JSON.stringify(movie),
         contentType: "application/json;charset=utf-8",
         success: function (response) {
-            if (response.success !== undefined) {
+            if (response.Success !== undefined) {
                 if (response.Success == true) {
                     alert(response.Message);
                     updateMovieWindow.dialog("close");
