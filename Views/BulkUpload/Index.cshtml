@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <legend>Bulk Upload Movies</legend>
+    <menu style="height: 55px; margin-top: 25px">
+        <span class="actionLink">@Html.ActionLink("Back to Movies List", "Index", "Movie")</span>
+    </menu>
+    @Html.ValidationSummary()
+    <form action="/BulkUpload/UploadCSV" method="post" enctype="multipart/form-data">
+        <label for="fileUpload">Select a CSV File</label><input type="file" name="fileUpload" />
+        <input type="submit" value="Upload" />
+    </form>

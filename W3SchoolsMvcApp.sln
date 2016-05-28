@@ -1,8 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMvcApp", "W3SchoolsMvcApp.csproj", "{7F67EAA1-946F-47D3-953F-EA358264EFCB}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BBE4CB8-F431-49C4-B1AB-3ECF8CEF2AD5}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
@@ -10,17 +10,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		W3SchoolsMvcApp.vsmdi = W3SchoolsMvcApp.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMVCAppTests", "W3SchoolsMVCAppTests\W3SchoolsMVCAppTests.csproj", "{88A7DD8F-D3ED-47AD-9501-F2A37C742C45}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8AEEACB1-409F-4654-A2AF-6611AA88D3EB}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMvcApp", "W3SchoolsMvcApp.csproj", "{7F67EAA1-946F-47D3-953F-EA358264EFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W3SchoolsMVCAppTests", "W3SchoolsMVCAppTests\W3SchoolsMVCAppTests.csproj", "{88A7DD8F-D3ED-47AD-9501-F2A37C742C45}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = W3SchoolsMvcApp.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -37,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = W3SchoolsMvcApp.vsmdi
 	EndGlobalSection
 EndGlobal
