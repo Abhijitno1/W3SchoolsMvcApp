@@ -21,7 +21,7 @@
     <span class="actionLink"><a href="javascript:ShowAddMovieWindow();">Create New</a></span>
     <span class="actionLink">@Html.ActionLink("Export to Excel", "Export2XL")</span>
     <span class="actionLink">@Html.ActionLink("Export to Pdf", "Export2Pdf")</span>
-    <span class="actionLink">@Html.ActionLink("Import from CSV", "Index", "BulkUpload")</span>
+    <span class="actionLink"><a href="javascript:ShowUploadMoviesWindow();">Import from CSV</a></span>
 </div>
 <div id="createMovieWindow">
 </div>
@@ -32,3 +32,4 @@
 <div id="moviesList">
     @Html.Partial("List")
 </div>
+

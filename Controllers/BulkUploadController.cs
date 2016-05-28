@@ -13,29 +13,39 @@ namespace W3SchoolsMvcApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
         }
 
         //ToDo: Convert to async method
         public ActionResult UploadCSV(HttpPostedFileBase fileUpload)
         {
-            if (fileUpload != null)
+            try
             {
-                //fileUpload.SaveAs(Path.Combine(Server.MapPath("~/Assets/"), fileUpload.FileName));
-                if (!fileUpload.FileName.ToLower().EndsWith(".csv"))
+                if (fileUpload != null)
                 {
-                    ModelState.AddModelError("fileUpload", "Please select a CSV file to upload");
-                    return View("Index");
+                    //fileUpload.SaveAs(Path.Combine(Server.MapPath("~/Assets/"), fileUpload.FileName));
+                    if (!fileUpload.FileName.ToLower().EndsWith(".csv"))
+                    {
+                        ModelState.AddModelError("fileUpload", "Please select a CSV file to upload");
+                        return PartialView("Index");
+                    }
+                    CSVImporter importer = new CSVImporter();
+                    List<Movie> newmovies = importer.ParseCSVFile(fileUpload.InputStream);
+                    importer.SaveMovies2DB(newmovies);
+                    //return RedirectToAction("Index", "Movie");
+                    var response = new { Success = true, Message = "Movies uploaded successfully" };
+                    return Json(response);
                 }
-                CSVImporter importer = new CSVImporter();
-                List<Movie> newmovies = importer.ParseCSVFile(fileUpload.InputStream);
-                importer.SaveMovies2DB(newmovies);
-                return RedirectToAction("Index", "Movie");
+                else
+                {
+                    ModelState.AddModelError("fileUpload", "Please select a file to upload");
+                    return PartialView("Index");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("fileUpload", "Please select a file to upload");
-                return View("Index");
+                ModelState.AddModelError("fileUpload", ex);
+                return PartialView("Index");
             }
         }
     }

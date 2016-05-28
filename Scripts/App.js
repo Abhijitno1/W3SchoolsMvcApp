@@ -202,3 +202,41 @@ function ConfirmMovieDelete(movieID) {
     }
 }
 
+function ShowUploadMoviesWindow() {
+    $.get('/BulkUpload/Index').then(
+        function (response) {
+            $('<div id="uploadMoviesWindow"></div>').html(response)
+                .dialog({
+                    width: 'auto', height: 'auto', modal: true,
+                    title: 'Bulk Upload Movies',
+                    close: function () {
+                        $('#uploadMoviesWindow').remove();
+                    }
+                })
+        });
+}
+
+function handleUploadClientside() {
+    var uploadControl = $('#uploadControl').get(0);
+    if (uploadControl.files.length == 0) {
+        alert('Please select a file to upload');
+        return false;
+    }
+    var formData = new FormData();
+    formData.append('fileUpload', uploadControl.files[0]);
+    $.ajax({
+        url: '/BulkUpload/UploadCSV',
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false
+    })
+    .done(function (response, status, jqXHR) {
+        if (response.Success == true) {
+            $('#uploadMoviesWindow').dialog('close');
+            $.get("/Movie/List", function (response) {
+                $("#moviesList").html(response);
+            });
+        }
+    });
+}
